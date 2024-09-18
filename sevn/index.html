@@ -15,84 +15,21 @@
     <h3 class="titleProject">Confira as rodadas do nosso campeonato fictício!</h3>
     <div class="card">
         <div class="headerCard">
-            <div class="arrow left">
+            <div class="arrow left" id="prevArrow" disabled>
               <img src="/public/arrow-left.png" height="16px" />
             </div>
             <div class="title">Rodada de Jogos</div>
-            <div class="arrow right">
+            <div class="arrow right" id="nextArrow">
               <img src="/public/arrow-right.png" alt="Seta para direita" height="16px" />
             </div>
         </div>
-        <div class="subtitle">Rodada 1</div>
-        <div class="matches">
-            <div class="match">
-                <div class="team">
-                    <img src="/public/teams/teamA.png" alt="Escudo Time 1" class="shield">
-                    <span class="name">Time A</span>
-                </div>
-                <div class="vsContainer">
-                  <span class="score">2</span>
-                  <img src="/public/x.svg" />
-                  <span class="score">1</span>
-                </div>
-                <div class="team">
-                    
-                    <span class="name">Time B</span>
-                    <img src="/public/teams/teamB.png" alt="Escudo Time 2" class="shield">
-                </div>
-            </div>
-            <div class="divide"></div>
-            <div class="match">
-                <div class="team">
-                    <img src="/public/teams/TeamC.png" alt="Escudo Time 3" class="shield">
-                    <span class="name">Time C</span>
-                </div>
-                <div class="vsContainer">
-                  <span class="score">1</span>
-                  <img src="/public/x.svg" />
-                  <span class="score">2</span>
-                </div>
-                <div class="team">
-                    <span class="name">Time D</span>
-                    <img src="/public/teams/TeamD.png" alt="Escudo Time 4" class="shield">
-                </div>
-            </div>
-            <div class="divide"></div>
-            <div class="match">
-              <div class="team">
-                  <img src="/public/teams/TeamE.png" alt="Escudo Time 3" class="shield">
-                  <span class="name">Time E</span>
-              </div>
-              <div class="vsContainer">
-                <span class="score">4</span>
-                <img src="/public/x.svg" />
-                <span class="score">3</span>
-              </div>
-              <div class="team">
-                  <span class="name">Time F</span>
-                  <img src="/public/teams/TeamF.png" alt="Escudo Time 4" class="shield">
-              </div>
-          </div>
-          <div class="divide"></div>
-          <div class="match">
-            <div class="team">
-                <img src="/public/teams/teamG.png" alt="Escudo Time 3" class="shield">
-                <span class="name">Time G</span>
-            </div>
-            <div class="vsContainer">
-              <span class="score">1</span>
-              <img src="/public/x.svg" />
-              <span class="score">0</span>
-            </div>
-            <div class="team">
-                <span class="name">Time H</span>
-                <img src="/public/teams/TeamH.png" alt="Escudo Time 4" class="shield">
-            </div>
-        </div>
-        <div class="divide"></div>
-            <!-- Repetir as linhas de confronto conforme necessário -->
+        <div class="subtitle" id="roundTitle">Rodada 1</div>
+        <div class="matches" id="matches">
+            <!-- Os jogos serão inseridos aqui via Web Component -->
         </div>
     </div>
   </div>
+
+  <script type="module" src="/src/components/game-roudend.ts"></script>
 </body>
 </html>
