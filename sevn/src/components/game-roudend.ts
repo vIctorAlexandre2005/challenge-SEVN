@@ -45,14 +45,17 @@ async function fetchGames() {
   return data;
 }
 
-// Função para atualizar a rodada e os jogos
+// Função para atualizar a rodada e renderizar os jogos
 async function updateGames(round: number) {
   const data = await fetchGames();
 
-  const filteredData = {
-    round: round,
-    games: data.games
-  };
+  // Filtrar os jogos da rodada específica
+  const filteredData = data.find((r: any) => r.round === round);
+
+  if (!filteredData) {
+    console.error("Nenhum dado encontrado para a rodada:", round);
+    return;
+  }
 
   // Atualizar o título da rodada
   const roundTitle = document.getElementById('roundTitle');
@@ -66,21 +69,56 @@ async function updateGames(round: number) {
     matchesContainer.innerHTML = '';
   }
 
-  // Adicionar novos jogos
-  filteredData?.games?.forEach((game: any) => {
-    const matchElement = document.createElement('match-card') as MatchCard;
-    matchElement.setAttribute('home-team', game.team_home_name);
-    matchElement.setAttribute('home-score', game.team_home_score.toString());
-    matchElement.setAttribute('away-team', game.team_away_name);
-    matchElement.setAttribute('away-score', game.team_away_score.toString());
+  const teamLogos: { [key: string]: string } = {
+    "team-a": "/public/teams/teamA.png",
+    "team-b": "/public/teams/teamB.png",
+    "team-c": "/public/teams/TeamC.png",
+    "team-d": "/public/teams/TeamD.png",
+    "team-e": "/public/teams/TeamE.png",
+    "team-f": "/public/teams/TeamF.png",
+    "team-g": "/public/teams/teamG.png",
+    "team-h": "/public/teams/TeamH.png",
+    // Adicione todos os times e logos correspondentes aqui
+  };
+
+  // Adicionar novos jogos com logos
+  filteredData.games.forEach((game: any) => {
+    const matchElement = document.createElement('div');
+    matchElement.classList.add('game');
+
+    // Usar os IDs dos times para buscar as logos
+    const homeTeamLogo = teamLogos[game.team_home_id] || '/public/logos/default.png'; // Logo do time da casa
+    const awayTeamLogo = teamLogos[game.team_away_id] || '/public/logos/default.png'; // Logo do time visitante
+
+    // Log para verificar a busca das logos usando os IDs
+    console.log(`Home team ID: ${game.team_home_id}, Logo: ${homeTeamLogo}`);
+    console.log(`Away team ID: ${game.team_away_id}, Logo: ${awayTeamLogo}`);
+
+    // Criar o HTML para cada jogo, com os times e suas respectivas logos
+    matchElement.innerHTML = `
+      <div class="team">
+        <img src="${homeTeamLogo}" alt="${game.team_home_name}" class="team-logo" />
+        <span class="team-name">${game.team_home_name}</span>
+        <span class="team-score">${game.team_home_score}</span>
+      </div>
+      <div class="versus">VS</div>
+      <div class="team">
+        <img src="${awayTeamLogo}" alt="${game.team_away_name}" class="team-logo" />
+        <span class="team-name">${game.team_away_name}</span>
+        <span class="team-score">${game.team_away_score}</span>
+      </div>
+    `;
+
+    // Inserir o jogo na lista de partidas
     if (matchesContainer) {
       matchesContainer.appendChild(matchElement);
     }
   });
 
-  // Chamar a função para gerenciar as setas
+  // Atualizar as setas de navegação
   handleArrows();
 }
+
 
 // Função para habilitar/desabilitar as setas de navegação
 function handleArrows() {
@@ -88,23 +126,8 @@ function handleArrows() {
   const nextArrow = document.getElementById('nextArrow') as HTMLButtonElement;
 
   if (prevArrow && nextArrow) {
-    // Verificar se é a primeira rodada para desabilitar a seta "esquerda"
-    if (currentRound === 1) {
-      prevArrow.disabled = true;
-      prevArrow.classList.add('disabled'); // Adicionar classe CSS para estilo
-    } else {
-      prevArrow.disabled = false;
-      prevArrow.classList.remove('disabled'); // Remover classe CSS
-    }
-
-    // Verificar se é a última rodada para desabilitar a seta "direita"
-    if (currentRound === totalRounds) {
-      nextArrow.disabled = true;
-      nextArrow.classList.add('disabled'); // Adicionar classe CSS para estilo
-    } else {
-      nextArrow.disabled = false;
-      nextArrow.classList.remove('disabled'); // Remover classe CSS
-    }
+    prevArrow.disabled = currentRound === 1;
+    nextArrow.disabled = currentRound === totalRounds;
   }
 }
 

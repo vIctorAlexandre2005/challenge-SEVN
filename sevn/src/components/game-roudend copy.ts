@@ -1,5 +1,10 @@
-// app.js
+// Número total de rodadas (você pode ajustar isso dinamicamente a partir da API)
+let totalRounds = 14; // Ou atualize dinamicamente com base na API
 
+// Rodada atual
+let currentRound = 1;
+
+// Definição do Web Component para exibir os jogos
 class MatchCard extends HTMLElement {
   constructor() {
     super();
@@ -30,67 +35,103 @@ class MatchCard extends HTMLElement {
   }
 }
 
+// Registrar o Web Component
 customElements.define('match-card', MatchCard);
 
 // Função para buscar os dados da API
-async function fetchGames(round: number) {
+async function fetchGames() {
   const response = await fetch(`https://sevn-pleno-esportes.deno.dev`);
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
 // Função para atualizar a rodada e os jogos
-function updateGames(round: any) {
-  fetchGames(round).then(data => {
-    // Atualizar o título da rodada
-    const eu3 = document.getElementById('roundTitle');
-    if(eu3) {
-      eu3.textContent = `Rodada ${data.round}`;
+async function updateGames(round: number) {
+  const data = await fetchGames();
+
+  const filteredData = {
+    round: round,
+    games: data.games
+  };
+
+  // Atualizar o título da rodada
+  const roundTitle = document.getElementById('roundTitle');
+  if (roundTitle) {
+    roundTitle.textContent = `Rodada ${filteredData.round}`;
+  }
+
+  // Limpar os jogos anteriores
+  const matchesContainer = document.getElementById('matches');
+  if (matchesContainer) {
+    matchesContainer.innerHTML = '';
+  }
+
+  // Adicionar novos jogos
+  filteredData?.games?.forEach((game: any) => {
+    const matchElement = document.createElement('match-card') as MatchCard;
+    matchElement.setAttribute('home-team', game.team_home_name);
+    matchElement.setAttribute('home-score', game.team_home_score.toString());
+    matchElement.setAttribute('away-team', game.team_away_name);
+    matchElement.setAttribute('away-score', game.team_away_score.toString());
+    if (matchesContainer) {
+      matchesContainer.appendChild(matchElement);
+    }
+  });
+
+  // Chamar a função para gerenciar as setas
+  handleArrows();
+}
+
+// Função para habilitar/desabilitar as setas de navegação
+function handleArrows() {
+  const prevArrow = document.getElementById('prevArrow') as HTMLButtonElement;
+  const nextArrow = document.getElementById('nextArrow') as HTMLButtonElement;
+
+  if (prevArrow && nextArrow) {
+    // Verificar se é a primeira rodada para desabilitar a seta "esquerda"
+    if (currentRound === 1) {
+      prevArrow.disabled = true;
+      prevArrow.classList.add('disabled'); // Adicionar classe CSS para estilo
+    } else {
+      prevArrow.disabled = false;
+      prevArrow.classList.remove('disabled'); // Remover classe CSS
     }
 
-    // Limpar os jogos anteriores
-    const matchesContainer = document.getElementById('matches');
-    if(matchesContainer) {
-      matchesContainer.innerHTML = '';
+    // Verificar se é a última rodada para desabilitar a seta "direita"
+    if (currentRound === totalRounds) {
+      nextArrow.disabled = true;
+      nextArrow.classList.add('disabled'); // Adicionar classe CSS para estilo
+    } else {
+      nextArrow.disabled = false;
+      nextArrow.classList.remove('disabled'); // Remover classe CSS
     }
+  }
+}
 
-    // Adicionar novos jogos
-    data?.games?.forEach((game: any) => {
-      const matchElement = document.createElement('match-card');
-      matchElement.setAttribute('home-team', game.team_home_name);
-      matchElement.setAttribute('home-score', game.team_home_score);
-      matchElement.setAttribute('away-team', game.team_away_name);
-      matchElement.setAttribute('away-score', game.team_away_score);
-      if(matchesContainer) {
-        matchesContainer.appendChild(matchElement);
+// Inicializar os jogos com a rodada 1 ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+  updateGames(currentRound);
+
+  const prevArrow = document.getElementById('prevArrow');
+  const nextArrow = document.getElementById('nextArrow');
+
+  // Evento para a seta esquerda (anterior)
+  if (prevArrow) {
+    prevArrow.addEventListener('click', () => {
+      if (currentRound > 1) {
+        currentRound--;
+        updateGames(currentRound);
       }
     });
-  });
-}
+  }
 
-// Carregar a rodada inicial
-updateGames(1);
-
-// Implementar a navegação entre rodadas (com exemplo básico)
-let currentRound = 1;
-
-const eu = document.querySelector('.arrow.left');
-
-if(eu) {
-  eu.addEventListener('click', () => {
-    if (currentRound > 1) {
-      currentRound--;
-      updateGames(currentRound);
-    }
-  });
-}
-
-const eu2 = document.querySelector('.arrow.right');
-
-if(eu2) {
-  eu2.addEventListener('click', () => {
-    currentRound++;
-    updateGames(currentRound);
-  });
-}
+  // Evento para a seta direita (próxima)
+  if (nextArrow) {
+    nextArrow.addEventListener('click', () => {
+      if (currentRound < totalRounds) {
+        currentRound++;
+        updateGames(currentRound);
+      }
+    });
+  }
+});
