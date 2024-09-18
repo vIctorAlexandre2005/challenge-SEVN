@@ -70,14 +70,14 @@ async function updateGames(round: number) {
   }
 
   const teamLogos: { [key: string]: string } = {
-    "team-a": "/public/teams/teamA.png",
-    "team-b": "/public/teams/teamB.png",
-    "team-c": "/public/teams/TeamC.png",
-    "team-d": "/public/teams/TeamD.png",
-    "team-e": "/public/teams/TeamE.png",
-    "team-f": "/public/teams/TeamF.png",
-    "team-g": "/public/teams/teamG.png",
-    "team-h": "/public/teams/TeamH.png",
+    "time-a": "/public/teams/teamA.png",
+    "time-b": "/public/teams/teamB.png",
+    "time-c": "/public/teams/TeamC.png",
+    "time-d": "/public/teams/TeamD.png",
+    "time-e": "/public/teams/TeamE.png",
+    "time-f": "/public/teams/TeamF.png",
+    "time-g": "/public/teams/teamG.png",
+    "time-h": "/public/teams/TeamH.png",
     // Adicione todos os times e logos correspondentes aqui
   };
 
