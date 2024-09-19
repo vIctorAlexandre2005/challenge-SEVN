@@ -41,18 +41,10 @@ class MatchCard extends HTMLElement {
 customElements.define('match-card', MatchCard);
 
 // Função para buscar os dados da API
-// src/components/game-round.ts
-
-// Função para buscar os jogos da API
-async function fetchGames(): Promise<any[]> {
-  try {
-    const response = await fetch(`https://sevn-pleno-esportes.deno.dev`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Erro ao buscar jogos:', error);
-    return [];
-  }
+async function fetchGames() {
+  const response = await fetch(`https://sevn-pleno-esportes.deno.dev`);
+  const data = await response.json();
+  return data;
 }
 
 // Função para atualizar a rodada e renderizar os jogos
@@ -80,25 +72,25 @@ async function updateGames(round: number) {
   }
 
   const teamLogos: { [key: string]: string } = {
-    "time-a": "/teams/teamA.png",
-    "time-b": "/teams/teamB.png",
-    "time-c": "/teams/teamC.png",
-    "time-d": "/teams/teamD.png",
-    "time-e": "/teams/teamE.png",
-    "time-f": "/teams/teamF.png",
-    "time-g": "/teams/teamG.png",
-    "time-h": "/teams/teamH.png",
+    "time-a": "/public/teams/teamA.png",
+    "time-b": "/public/teams/teamB.png",
+    "time-c": "/public/teams/TeamC.png",
+    "time-d": "/public/teams/TeamD.png",
+    "time-e": "/public/teams/TeamE.png",
+    "time-f": "/public/teams/TeamF.png",
+    "time-g": "/public/teams/teamG.png",
+    "time-h": "/public/teams/TeamH.png",
     // Adicione todos os times e logos correspondentes aqui
   };
 
   // Adicionar novos jogos com logos
   filteredData.games.forEach((game: any) => {
     const matchElement = document.createElement('div');
-    matchElement.classList.add('match');
+    matchElement.classList.add('game');
 
     // Usar os IDs dos times para buscar as logos
-    const homeTeamLogo = teamLogos[game.team_home_id];
-    const awayTeamLogo = teamLogos[game.team_away_id];
+    const homeTeamLogo = teamLogos[game.team_home_id]
+    const awayTeamLogo = teamLogos[game.team_away_id]
 
     // Log para verificar a busca das logos usando os IDs
     console.log(`Home team ID: ${game.team_home_id}, Logo: ${homeTeamLogo}`);
@@ -113,9 +105,9 @@ async function updateGames(round: number) {
       </div>
       <div class="versus">VS</div>
       <div class="team">
-      <span class="team-score">${game.team_away_score}</span>
         <img src="${awayTeamLogo}" alt="${game.team_away_name}" class="team-logo" />
         <span class="team-name">${game.team_away_name}</span>
+        <span class="team-score">${game.team_away_score}</span>
       </div>
     `;
 
@@ -128,6 +120,7 @@ async function updateGames(round: number) {
   // Atualizar as setas de navegação
   handleArrows();
 }
+
 
 // Função para habilitar/desabilitar as setas de navegação
 function handleArrows() {
