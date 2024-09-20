@@ -205,7 +205,7 @@ body {
   }
 }
 
-/* // Dispositivos com altura de no máximo 620px */
+/* Dispositivos com altura de no máximo 620px */
 @media (max-height: 620px) {
   .card {
     top: 60%;
