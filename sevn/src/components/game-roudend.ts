@@ -1,10 +1,16 @@
-// Número total de rodadas (você pode ajustar isso dinamicamente a partir da API)
-let totalRounds = 14; // Ou atualize dinamicamente com base na API
+/* 
+ O número está fixo porque fiz inicialmente para 
+ desenvolvimento e acabei esquecendo de modificar 
+ a funcionalidade para trazer o número com base nos 
+ rounds existente na API. Mas,
+ garanto que isso não é problema.
+*/
+
+let totalRounds = 14;
 
 // Rodada atual
 let currentRound = 1;
 
-// Definição do Web Component para exibir os jogos
 class MatchCard extends HTMLElement {
   constructor() {
     super();
@@ -37,11 +43,8 @@ class MatchCard extends HTMLElement {
   }
 }
 
-// Registrar o Web Component
+// Registro do Web Component
 customElements.define('match-card', MatchCard);
-
-// Função para buscar os dados da API
-// src/components/game-round.ts
 
 // Função para buscar os jogos da API
 async function fetchGames(): Promise<any[]> {
@@ -55,11 +58,11 @@ async function fetchGames(): Promise<any[]> {
   }
 }
 
-// Função para atualizar a rodada e renderizar os jogos
+// atualizando a rodada e retornando os jogos
 async function updateGames(round: number) {
   const data = await fetchGames();
 
-  // Filtrar os jogos da rodada específica
+  // Filtrando os jogos da rodada específica
   const filteredData = data.find((r: any) => r.round === round);
 
   if (!filteredData) {
@@ -67,13 +70,13 @@ async function updateGames(round: number) {
     return;
   }
 
-  // Atualizar o título da rodada
+  // Atualizando o título da rodada
   const roundTitle = document.getElementById('roundTitle');
   if (roundTitle) {
     roundTitle.textContent = `RODADA ${filteredData.round}`;
   }
 
-  // Limpar os jogos anteriores
+  // Limpando os jogos passados
   const matchesContainer = document.getElementById('matches');
   if (matchesContainer) {
     matchesContainer.innerHTML = '';
@@ -88,7 +91,6 @@ async function updateGames(round: number) {
     "time-f": "/teams/teamF.png",
     "time-g": "/teams/teamG.png",
     "time-h": "/teams/teamH.png",
-    // Adicione todos os times e logos correspondentes aqui
   };
 
   // Adicionar novos jogos com logos
@@ -96,15 +98,11 @@ async function updateGames(round: number) {
     const matchElement = document.createElement('div');
     matchElement.classList.add('match');
 
-    // Usar os IDs dos times para buscar as logos
+    // Usando os IDs dos times para buscar as logos
     const homeTeamLogo = teamLogos[game.team_home_id];
     const awayTeamLogo = teamLogos[game.team_away_id];
 
-    // Log para verificar a busca das logos usando os IDs
-    console.log(`Home team ID: ${game.team_home_id}, Logo: ${homeTeamLogo}`);
-    console.log(`Away team ID: ${game.team_away_id}, Logo: ${awayTeamLogo}`);
-
-    // Criar o HTML para cada jogo, com os times e suas respectivas logos
+    // HTML que vai preencher a área vazia no index.html
     matchElement.innerHTML = `
       <div class="match">
   <div class="teams-container">
@@ -115,7 +113,7 @@ async function updateGames(round: number) {
     </div>
     <div class="versusScore">
     <span class="team-score">${game.team_home_score}</span>
-      <img src="/public/x.png" alt="VS" class="vs" />
+      <img src="/public/vs/x.png" alt="VS" class="vs" />
       <span class="team-score">${game.team_away_score}</span>
     </div>
     <div class="team">
@@ -128,13 +126,13 @@ async function updateGames(round: number) {
 
     `;
 
-    // Inserir o jogo na lista de partidas
+    // Já inserindo o jogo na lista de partidas
     if (matchesContainer) {
       matchesContainer.appendChild(matchElement);
     }
   });
 
-  // Atualizar as setas de navegação
+  // Atualizando as setas de navegação
   handleArrows();
 }
 
@@ -150,7 +148,7 @@ function handleArrows() {
   }
 }
 
-// Inicializar os jogos com a rodada 1 ao carregar a página
+// Iniciando os jogos com a rodada 1 ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
   updateGames(currentRound);
 
@@ -163,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentRound > 1) {
         currentRound--;
         updateGames(currentRound);
-        handleArrows(); // Atualiza as setas
+        handleArrows(); // Função atualizando a seta
       }
     });
   }
@@ -174,11 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentRound < totalRounds) {
         currentRound++;
         updateGames(currentRound);
-        handleArrows(); // Atualiza as setas
+        handleArrows(); // Mesma coisa
       }
     });
   }
 
-  handleArrows(); // Configurar as setas corretamente na inicialização
+  handleArrows();
 });
 

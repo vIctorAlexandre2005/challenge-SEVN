@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card de Jogos</title>
-    <link rel="stylesheet" href="/src/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card de Jogos</title>
+  <link rel="stylesheet" href="/src/style/style.css">
 </head>
 
 <body>
   <header class="header">
     <h1>SEVN ESPORTES ⚽</h1>
   </header>
-  
-    <h3 class="titleProject">Confira as rodadas do nosso campeonato fictício!</h3>
-    <div class="card">
+  <div class="container">
+    <div class="content">
+      <h3 class="titleProject">Confira as rodadas do nosso campeonato fictício!</h3>
+      <div class="card">
         <div class="headerCard">
-            <div class="arrow" id="prevArrow" disabled>
-              <img src="/public/arrow-left.png" height="16px" />
-            </div>
-            <div class="title">Rodadas de Jogos</div>
-            <div class="arrow right" id="nextArrow">
-              <img src="/public/arrow-right.png" alt="Seta para direita" height="16px" />
-            </div>
+          <div class="arrow" id="prevArrow">
+            <img src="/public/arrows/arrow-left.png" alt="Seta para esquerda" height="16px" />
+          </div>
+          <div class="title">Rodadas de Jogos</div>
+          <div class="arrow right" id="nextArrow">
+            <img src="/public/arrows/arrow-right.png" alt="Seta para direita" height="16px" />
+          </div>
         </div>
         <div class="subtitle" id="roundTitle"></div>
         <div class="matches" id="matches">
-            <!-- Aqui é onde ficam os jogos -->
+          <!-- Aqui é onde ficam os jogos -->
         </div>
+      </div>
     </div>
+  </div>
 
   <script type="module" src="/src/components/game-roudend.ts"></script>
 </body>
+
 </html>

@@ -14,18 +14,16 @@ body {
 }
 
 .titleProject {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   text-align: center;
   font-weight: 500;
 }
 
-/* Estilo para quando a seta está desabilitada */
 .disabled-arrow {
   cursor: not-allowed;
   opacity: 0.5;
-  pointer-events: none; /* Isso impede que o clique aconteça */
+  pointer-events: none;
 }
-
 
 .header {
   height: 76px;
@@ -34,8 +32,13 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  font-family: Inter, sans-serif;
   font-size: 22px;
+}
+
+.container {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
 }
 
 .card {
@@ -60,7 +63,6 @@ body {
   padding: 0.5rem;
   width: 2rem;
   background-color: #33B667;
-  /* position: absolute; */
   border-radius: 6px;
   color: white;
   text-align: center;
@@ -69,13 +71,9 @@ body {
   cursor: pointer;
 }
 
-/* .arrow.left {
-  left: 25px;
+.arrow:hover {
+  opacity: 0.8;
 }
-
-.arrow.right {
-  right: 25px;
-} */
 
 .title {
   font-size: 16px;
@@ -97,6 +95,10 @@ body {
   gap: 20px;
 }
 
+#matches > .match:last-child .divide {
+  display: none;
+}
+
 .divide {
   border: 1px solid #DDDDDD;
   width: 100%;
@@ -109,10 +111,6 @@ body {
   align-items: center;
   gap: 10px;
   width: 100%;
-}
-
-#matches > .match:last-child .divide {
-  display: none;
 }
 
 .teams-container {
@@ -149,18 +147,68 @@ body {
   align-items: center;
   font-size: 20px;
   font-weight: bold;
-  gap: 10px
+  gap: 10px;
 }
 
 .vs {
   height: 12px;
   width: 12px;
-};
+}
 
-// RESPONSIVIDADE
+/* RESPONSIVIDADE */
 
-@media(max-width: 580px) {
-  .header {
+/* Dispositivos com largura de no máximo 580px */
+@media (max-width: 580px) {
+  .titleProject {
     font-size: 20px;
+  }
+
+  .card {
+    width: 90%;
+    padding: 16px;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .arrow {
+    width: 1.5rem;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .subtitle {
+    font-size: 10px;
+  }
+
+  .matches {
+    margin-top: 1.5rem;
+  }
+
+  .versusScore {
+    font-size: 16px;
+  }
+
+  .team-logo {
+    width: 24px;
+    height: 30px;
+  }
+
+  .team-name, .team-score {
+    font-size: 10px;
+  }
+}
+
+/* // Dispositivos com altura de no máximo 620px */
+@media (max-height: 620px) {
+  .card {
+    top: 60%;
+    transform: translate(-50%, -50%);
   }
 }
