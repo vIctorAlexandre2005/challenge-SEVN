@@ -140,13 +140,12 @@ async function updateGames(round: number) {
 
 // Função para habilitar/desabilitar as setas de navegação
 function handleArrows() {
-  const prevArrow = document.getElementById('prevArrow');
-  const nextArrow = document.getElementById('nextArrow');
+  const prevArrow = document.getElementById('prevArrow') as HTMLButtonElement;
+  const nextArrow = document.getElementById('nextArrow') as HTMLButtonElement;
 
   if (prevArrow && nextArrow) {
-    // Adiciona ou remove a classe 'disabled-arrow' conforme a rodada atual
-    prevArrow.classList.toggle('disabled-arrow', currentRound === 1);
-    nextArrow.classList.toggle('disabled-arrow', currentRound === totalRounds);
+    prevArrow.disabled = currentRound === 1;
+    nextArrow.disabled = currentRound === totalRounds;
   }
 }
 
@@ -163,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentRound > 1) {
         currentRound--;
         updateGames(currentRound);
-        handleArrows(); // Atualiza as setas
       }
     });
   }
@@ -174,11 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentRound < totalRounds) {
         currentRound++;
         updateGames(currentRound);
-        handleArrows(); // Atualiza as setas
       }
     });
   }
-
-  handleArrows(); // Configurar as setas corretamente na inicialização
 });
-
